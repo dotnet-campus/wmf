@@ -11,17 +11,17 @@ The library supports reading and writing WMF files. Source code is written in pu
 * Mime type: **image/x-wmf, image/x-emf**
 * Classification: vector/raster image
 * Identifier: **D7 CD C6 9A** (first four bytes)
-* Documentation: [WMF Specification](http://download.microsoft.com/download/5/0/1/501ED102-E53F-4CE0-AA6B-B0F93629DDC6/WindowsMetafileFormat(wmf)Specification.pdf)
+* Documentation: [WMF Specification](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-wmf/4813e7fd-52d0-4f42-965f-228c8b7488d2)
 
 ## Why WMF?
 WMF is all about records - recorded sequence of actions. As opposite to other vector or raster image formats that define final image appearance, WMF contains intermediate states. Those states can be modified at specific working stage or can be "played" back to render an image. From other point of view WMF file natively contains "undo" history.
 
 Another advantage of WMF is to support both vector and raster elements in one file. Disadvantage are lack of features (e.g. no element grouping like layers or trees), 16-bit limitations, bad extensibility due to old image format.
 
-WMF can be replaced by EPS but since Windows has good integration with the WMF it is still useful in some cases: clipboard - transfering images with copy/paste, Clip Art images from MS Office are WMF, etc.
+WMF can be replaced by EPS but since Windows has good integration with the WMF it is still useful in some cases: clipboard - transferring images with copy/paste, Clip Art images from MS Office are WMF, etc.
 
 ## Notice
-This library does not fully implement Windows Metafile Format Specification. Current library version (v0.3) supports **only basic WMF records** but the source code is well structured so the missing records can easily be implemented if needed. I am not planning to develop other WMF records as the current version fulfills my requirements for another project.
+This library does not fully implement Windows Metafile Format Specification. Current library version mostly supports the basic WMF records, but the source code is well structured, so the missing records can easily be implemented if needed. Currently, there's no particular plans to add other WMF records, but we are open to contributions and feature requests.
 
 ## Examples
 
