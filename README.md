@@ -1,5 +1,15 @@
 # Windows Metafile Library
 
+[![Build Status](https://dev.azure.com/wieslawsoltes/GitHub/_apis/build/status%2Fwieslawsoltes.wmf?repoName=wieslawsoltes%2Fwmf&branchName=main)](https://dev.azure.com/wieslawsoltes/GitHub/_build/latest?definitionId=110&repoName=wieslawsoltes%2Fwmf&branchName=main)
+[![CI](https://github.com/wieslawsoltes/wmf/actions/workflows/build.yml/badge.svg)](https://github.com/wieslawsoltes/wmf/actions/workflows/build.yml)
+
+[![GitHub release](https://img.shields.io/github/release/wieslawsoltes/wmf.svg)](https://github.com/wieslawsoltes/wmf/releases)
+[![Github All Releases](https://img.shields.io/github/downloads/wieslawsoltes/wmf/total.svg)](https://github.com/wieslawsoltes/wmf/releases)
+[![Github Releases](https://img.shields.io/github/downloads/wieslawsoltes/wmf/latest/total.svg)](https://github.com/wieslawsoltes/wmf/releases)
+
+[![NuGet](https://img.shields.io/nuget/v/Oxage.Wmf.svg)](https://www.nuget.org/packages/Oxage.Wmf)
+[![NuGet](https://img.shields.io/nuget/dt/Oxage.Wmf.svg)](https://www.nuget.org/packages/Oxage.Wmf)
+
 Note: this project moved from https://wmf.codeplex.com/
 
 ## Project Description
