@@ -1,0 +1,53 @@
+name: $(date:yyyyMMdd)$(rev:-rr)
+
+resources:
+  repositories:
+    - repository: templates
+      endpoint: wieslawsoltes
+      type: github
+      name: wieslawsoltes/BuildTemplates
+      ref: refs/tags/v2.5.0
+
+variables:
+  BuildConfiguration: 'Release'
+  BuildPlatform: 'Any CPU'
+  PublishFramework: 'netcoreapp3.1'
+  PublishProject: 'Console'
+  PublishRuntime: ''
+  Workloads: ''
+
+jobs:
+  - template: Test-PowerShell.yml@templates
+    parameters:
+      name: 'Test_Windows'
+      vmImage: 'windows-2022'
+      BuildConfiguration: ${{ variables.BuildConfiguration }}
+      Workloads: ${{ variables.Workloads }} ios
+
+  - template: Test-Bash.yml@templates
+    parameters:
+      name: 'Test_Linux'
+      vmImage: 'ubuntu-20.04'
+      BuildConfiguration: ${{ variables.BuildConfiguration }}
+      Workloads: ${{ variables.Workloads }}
+
+  - template: Test-Bash.yml@templates
+    parameters:
+      name: 'Test_macOS'
+      vmImage: 'macOS-12'
+      BuildConfiguration: ${{ variables.BuildConfiguration }}
+      Workloads: ${{ variables.Workloads }} ios
+
+  - template: Pack-MyGet.yml@templates
+    parameters:
+      name: 'Pack_MyGet'
+      vmImage: 'windows-2022'
+      BuildConfiguration: ${{ variables.BuildConfiguration }}
+      Workloads: ${{ variables.Workloads }} ios
+
+  - template: Pack-NuGet.yml@templates
+    parameters:
+      name: 'Pack_NuGet'
+      vmImage: 'windows-2022'
+      BuildConfiguration: ${{ variables.BuildConfiguration }}
+      Workloads: ${{ variables.Workloads }} ios
