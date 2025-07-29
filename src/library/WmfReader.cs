@@ -16,7 +16,7 @@ namespace Oxage.Wmf
 		{
 			this.stream = stream;
 			this.reader = new BinaryReader(stream);
-		}
+        }
 
 		public bool IsFormatRead
 		{

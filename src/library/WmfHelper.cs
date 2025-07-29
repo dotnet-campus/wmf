@@ -1,33 +1,59 @@
-﻿using System;
-using System.Drawing;
-using System.Text;
+﻿#nullable enable
+using Oxage.Wmf.Primitive;
 using Oxage.Wmf.Records;
+
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Text;
+
+using Color = Oxage.Wmf.Primitive.WmfColor;
+using Point = Oxage.Wmf.Primitive.WmfPoint;
 
 namespace Oxage.Wmf
 {
-	public class WmfHelper
+	public partial class WmfHelper
 	{
-		public static IBinaryRecord GetRecordByType(RecordType rt)
+		public static IBinaryRecord? GetRecordByType(RecordType rt)
 		{
-			var types = typeof(WmfHelper).Assembly.GetTypes();
-
-			foreach (var type in types)
-			{
-				if (typeof(IBinaryRecord).IsAssignableFrom(type))
-				{
-					var attribute = Attribute.GetCustomAttribute(type, typeof(WmfRecordAttribute)) as WmfRecordAttribute;
-					if (attribute != null && attribute.Type == rt)
-					{
-						var record = Activator.CreateInstance(type) as IBinaryRecord;
-						return record;
-					}
-				}
-			}
+            if (RecordCreatorDictionary.TryGetValue(rt,out var creator))
+            {
+                return creator.Creator();
+            }
 
 			return null;
 		}
 
-		public static Encoding GetAnsiEncoding()
+        private static Dictionary<RecordType, RecordCreator> RecordCreatorDictionary
+        {
+            get
+            {
+                if (_recordCreatorDictionary is null)
+                {
+                    var dictionary = new Dictionary<RecordType, RecordCreator>();
+                    foreach (var (type, attribute, creator) in ExportBinaryRecordEnumerable())
+                    {
+                        dictionary.Add(attribute.Type, new RecordCreator(type, attribute, creator));
+                    }
+                    _recordCreatorDictionary = dictionary;
+                }
+
+                return _recordCreatorDictionary;
+            }
+        }
+        
+        private static Dictionary<RecordType, RecordCreator>? _recordCreatorDictionary;
+
+        readonly record struct RecordCreator(Type Type, WmfRecordAttribute Attribute, Func<IBinaryRecord> Creator);
+
+        /// <summary>
+        /// This method is used to export all binary records that are defined in the library. PowerBy Telescope, the source generator.
+        /// </summary>
+        /// <returns></returns>
+        [dotnetCampus.Telescope.TelescopeExportAttribute()]
+        private static partial IEnumerable<(Type type, WmfRecordAttribute attribute, Func<IBinaryRecord> creator)> ExportBinaryRecordEnumerable();
+
+        public static Encoding GetAnsiEncoding()
 		{
 			//ANSI Encoding: http://weblogs.asp.net/ahoffman/archive/2004/01/19/60094.aspx
 			//Not sure, should be Encoding.Default? Documentation says "ANSI Character Set" but not specifically which code page
@@ -93,7 +119,7 @@ namespace Oxage.Wmf
 			wmf.Records.Add(new WmfTextoutRecord()
 			{
 				StringLength = 0x000C,
-				StringValue = "Hello People",
+				TextByteArray = WmfHelper.GetAnsiEncoding().GetBytes("Hello People"),
 				YStart = 0x000A,
 				XStart = 0x000A
 			});

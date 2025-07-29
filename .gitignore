@@ -4,3 +4,4 @@ docs/
 *.suo
 *.user
 .idea/
+.vs
